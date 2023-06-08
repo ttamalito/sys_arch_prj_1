@@ -3,7 +3,7 @@ module MealyPattern(
 	input        i,
 	output [1:0] o
 );
-
+// this is to test git!
 // define the registers to store 010 and 101
 // 2bit register to store 010 (name of the machine is 010)
 reg [1:0] zero_one_zero;
