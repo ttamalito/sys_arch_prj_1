@@ -7,12 +7,18 @@ module DivisionTestbench();
 
 	initial
 	begin
-		s <= 1'b0; #1; s <= 1'b1; #4; s <= 1'b0; #160; $finish;
+		s <= 1'b0; 
+		#1; s <= 1'b1; 
+		#4; s <= 1'b0; 
+		#160; $finish;
 	end
 
 	always
 	begin
-		clk <= 1'b1; #2; clk <= 1'b0; #2;
+		clk <= 1'b1; 
+		#2; 
+		clk <= 1'b0; 
+		#2;
 	end
 
 	// Module under test
@@ -37,6 +43,12 @@ module DivisionTestbench();
 		else
 			$display("Simulation failed");
 	end
+	
+	initial 
+	begin 
+		$display("\t\ttime ,\tclk ,\ts, \tqres, \trres ");
+		$monitor("%d ,\t%b ,\t%b ,\t%b " ,$time, clk, s, qres, rres);
+	end 
 
 endmodule
 

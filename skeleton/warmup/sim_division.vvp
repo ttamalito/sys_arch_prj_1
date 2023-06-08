@@ -1,0 +1,198 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1110-g18392a46)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+S_000001ddb63b26a0 .scope module, "DivisionTestbench" "DivisionTestbench" 2 1;
+ .timescale 0 0;
+v000001ddb6417b90_0 .var "clk", 0 0;
+v000001ddb6418130_0 .net "qres", 31 0, L_000001ddb63ac450;  1 drivers
+v000001ddb6418590_0 .net "rres", 31 0, L_000001ddb63abf10;  1 drivers
+v000001ddb64181d0_0 .var "s", 0 0;
+S_000001ddb63b1d00 .scope module, "divider" "Division" 2 25, 3 1 0, S_000001ddb63b26a0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "clock";
+    .port_info 1 /INPUT 1 "start";
+    .port_info 2 /INPUT 32 "a";
+    .port_info 3 /INPUT 32 "b";
+    .port_info 4 /OUTPUT 32 "q";
+    .port_info 5 /OUTPUT 32 "r";
+L_000001ddb63abff0 .functor BUFZ 5, v000001ddb64186d0_0, C4<00000>, C4<00000>, C4<00000>;
+L_000001ddb63abab0 .functor BUFZ 5, v000001ddb6417870_0, C4<00000>, C4<00000>, C4<00000>;
+L_000001ddb63ac450 .functor BUFZ 32, v000001ddb6418090_0, C4<00000000000000000000000000000000>, C4<00000000000000000000000000000000>, C4<00000000000000000000000000000000>;
+L_000001ddb63abf10 .functor BUFZ 32, v000001ddb6417f50_0, C4<00000000000000000000000000000000>, C4<00000000000000000000000000000000>, C4<00000000000000000000000000000000>;
+v000001ddb63a8070_0 .net *"_ivl_0", 31 0, L_000001ddb64183b0;  1 drivers
+L_000001ddb6419510 .functor BUFT 1, C4<0000000000000000000000000000000>, C4<0>, C4<0>, C4<0>;
+v000001ddb63a87f0_0 .net *"_ivl_11", 30 0, L_000001ddb6419510;  1 drivers
+v000001ddb63a7e90_0 .net *"_ivl_16", 31 0, L_000001ddb6418e50;  1 drivers
+v000001ddb63a82f0_0 .net *"_ivl_2", 30 0, L_000001ddb6417c30;  1 drivers
+L_000001ddb6419558 .functor BUFT 1, C4<00000>, C4<0>, C4<0>, C4<0>;
+v000001ddb63a78f0_0 .net/2u *"_ivl_20", 4 0, L_000001ddb6419558;  1 drivers
+v000001ddb63a7a30_0 .net *"_ivl_22", 0 0, L_000001ddb64189f0;  1 drivers
+L_000001ddb64195a0 .functor BUFT 1, C4<00000>, C4<0>, C4<0>, C4<0>;
+v000001ddb63a7cb0_0 .net/2u *"_ivl_24", 4 0, L_000001ddb64195a0;  1 drivers
+L_000001ddb64195e8 .functor BUFT 1, C4<00001>, C4<0>, C4<0>, C4<0>;
+v000001ddb63a7ad0_0 .net/2u *"_ivl_26", 4 0, L_000001ddb64195e8;  1 drivers
+v000001ddb63a8390_0 .net *"_ivl_28", 4 0, L_000001ddb6418c70;  1 drivers
+L_000001ddb6419630 .functor BUFT 1, C4<00000>, C4<0>, C4<0>, C4<0>;
+v000001ddb63a7b70_0 .net/2u *"_ivl_32", 4 0, L_000001ddb6419630;  1 drivers
+v000001ddb63a7d50_0 .net *"_ivl_34", 0 0, L_000001ddb64174b0;  1 drivers
+L_000001ddb6419678 .functor BUFT 1, C4<00000>, C4<0>, C4<0>, C4<0>;
+v000001ddb63a8110_0 .net/2u *"_ivl_36", 4 0, L_000001ddb6419678;  1 drivers
+L_000001ddb64196c0 .functor BUFT 1, C4<00001>, C4<0>, C4<0>, C4<0>;
+v000001ddb63a8430_0 .net/2u *"_ivl_38", 4 0, L_000001ddb64196c0;  1 drivers
+L_000001ddb64194c8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v000001ddb63a84d0_0 .net *"_ivl_4", 0 0, L_000001ddb64194c8;  1 drivers
+v000001ddb63a8570_0 .net *"_ivl_40", 4 0, L_000001ddb6417730;  1 drivers
+v000001ddb63a8610_0 .net *"_ivl_7", 0 0, L_000001ddb64188b0;  1 drivers
+v000001ddb63a86b0_0 .net *"_ivl_8", 31 0, L_000001ddb64177d0;  1 drivers
+L_000001ddb6419708 .functor BUFT 1, C4<00000000000000000000000000000111>, C4<0>, C4<0>, C4<0>;
+v000001ddb64184f0_0 .net "a", 31 0, L_000001ddb6419708;  1 drivers
+L_000001ddb6419750 .functor BUFT 1, C4<00000000000000000000000000000011>, C4<0>, C4<0>, C4<0>;
+v000001ddb64179b0_0 .net "b", 31 0, L_000001ddb6419750;  1 drivers
+v000001ddb6418d10_0 .net "clock", 0 0, v000001ddb6417b90_0;  1 drivers
+v000001ddb6417870_0 .var "counter", 4 0;
+v000001ddb6418810_0 .net "counter_dividend_value", 4 0, L_000001ddb63abab0;  1 drivers
+v000001ddb6417190_0 .net "decreased_counter", 4 0, L_000001ddb6418b30;  1 drivers
+v000001ddb64175f0_0 .net "decreased_q_counter", 4 0, L_000001ddb6417370;  1 drivers
+v000001ddb6417af0_0 .var "dividend", 31 0;
+v000001ddb6418bd0_0 .var "divisor", 31 0;
+v000001ddb6418090_0 .var "partial_result", 31 0;
+v000001ddb6418f90_0 .net "predicate", 0 0, L_000001ddb6418270;  1 drivers
+v000001ddb6418a90_0 .net "q", 31 0, L_000001ddb63ac450;  alias, 1 drivers
+v000001ddb64186d0_0 .var "q_counter", 4 0;
+v000001ddb6418770_0 .net "q_counter_value", 4 0, L_000001ddb63abff0;  1 drivers
+v000001ddb6418450_0 .net "r", 31 0, L_000001ddb63abf10;  alias, 1 drivers
+v000001ddb6417a50_0 .net "r_prime", 31 0, L_000001ddb6418950;  1 drivers
+v000001ddb6417d70_0 .net "r_prime_minus_b", 0 0, L_000001ddb6418ef0;  1 drivers
+v000001ddb6417f50_0 .var "remainder", 31 0;
+v000001ddb6418630_0 .net "start", 0 0, v000001ddb64181d0_0;  1 drivers
+E_000001ddb63af840 .event posedge, v000001ddb6418d10_0;
+L_000001ddb6417c30 .part v000001ddb6417f50_0, 0, 31;
+L_000001ddb64183b0 .concat [ 1 31 0 0], L_000001ddb64194c8, L_000001ddb6417c30;
+L_000001ddb64188b0 .part/v v000001ddb6417af0_0, v000001ddb6417870_0, 1;
+L_000001ddb64177d0 .concat [ 1 31 0 0], L_000001ddb64188b0, L_000001ddb6419510;
+L_000001ddb6418950 .arith/sum 32, L_000001ddb64183b0, L_000001ddb64177d0;
+L_000001ddb6418270 .cmp/gt 32, v000001ddb6418bd0_0, L_000001ddb6418950;
+L_000001ddb6418e50 .arith/sub 32, L_000001ddb6418950, v000001ddb6418bd0_0;
+L_000001ddb6418ef0 .part L_000001ddb6418e50, 0, 1;
+L_000001ddb64189f0 .cmp/eq 5, v000001ddb64186d0_0, L_000001ddb6419558;
+L_000001ddb6418c70 .arith/sub 5, v000001ddb64186d0_0, L_000001ddb64195e8;
+L_000001ddb6417370 .functor MUXZ 5, L_000001ddb6418c70, L_000001ddb64195a0, L_000001ddb64189f0, C4<>;
+L_000001ddb64174b0 .cmp/eq 5, v000001ddb6417870_0, L_000001ddb6419630;
+L_000001ddb6417730 .arith/sub 5, v000001ddb6417870_0, L_000001ddb64196c0;
+L_000001ddb6418b30 .functor MUXZ 5, L_000001ddb6417730, L_000001ddb6419678, L_000001ddb64174b0, C4<>;
+    .scope S_000001ddb63b1d00;
+T_0 ;
+    %wait E_000001ddb63af840;
+    %load/vec4 v000001ddb6418630_0;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.0, 8;
+    %pushi/vec4 0, 0, 32;
+    %assign/vec4 v000001ddb6417f50_0, 0;
+    %load/vec4 v000001ddb64179b0_0;
+    %assign/vec4 v000001ddb6418bd0_0, 0;
+    %load/vec4 v000001ddb64184f0_0;
+    %assign/vec4 v000001ddb6417af0_0, 0;
+    %pushi/vec4 31, 0, 5;
+    %assign/vec4 v000001ddb6417870_0, 0;
+    %pushi/vec4 31, 0, 5;
+    %assign/vec4 v000001ddb64186d0_0, 0;
+    %pushi/vec4 0, 0, 32;
+    %assign/vec4 v000001ddb6418090_0, 0;
+T_0.0 ;
+    %load/vec4 v000001ddb6418f90_0;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.2, 8;
+    %pushi/vec4 0, 0, 1;
+    %ix/load 5, 0, 0;
+    %ix/getv 4, v000001ddb6418770_0;
+    %assign/vec4/off/d v000001ddb6418090_0, 4, 5;
+    %load/vec4 v000001ddb6417a50_0;
+    %assign/vec4 v000001ddb6417f50_0, 0;
+    %load/vec4 v000001ddb64175f0_0;
+    %assign/vec4 v000001ddb64186d0_0, 0;
+    %load/vec4 v000001ddb6417190_0;
+    %assign/vec4 v000001ddb6417870_0, 0;
+T_0.2 ;
+    %load/vec4 v000001ddb6418f90_0;
+    %nor/r;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.4, 8;
+    %pushi/vec4 1, 0, 1;
+    %ix/load 5, 0, 0;
+    %ix/getv 4, v000001ddb6418770_0;
+    %assign/vec4/off/d v000001ddb6418090_0, 4, 5;
+    %load/vec4 v000001ddb6417d70_0;
+    %pad/u 32;
+    %assign/vec4 v000001ddb6417f50_0, 0;
+    %load/vec4 v000001ddb64175f0_0;
+    %assign/vec4 v000001ddb64186d0_0, 0;
+    %load/vec4 v000001ddb6417190_0;
+    %assign/vec4 v000001ddb6417870_0, 0;
+T_0.4 ;
+    %jmp T_0;
+    .thread T_0;
+    .scope S_000001ddb63b26a0;
+T_1 ;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v000001ddb64181d0_0, 0;
+    %delay 1, 0;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v000001ddb64181d0_0, 0;
+    %delay 4, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v000001ddb64181d0_0, 0;
+    %delay 160, 0;
+    %vpi_call 2 13 "$finish" {0 0 0};
+    %end;
+    .thread T_1;
+    .scope S_000001ddb63b26a0;
+T_2 ;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v000001ddb6417b90_0, 0;
+    %delay 2, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v000001ddb6417b90_0, 0;
+    %delay 2, 0;
+    %jmp T_2;
+    .thread T_2;
+    .scope S_000001ddb63b26a0;
+T_3 ;
+    %vpi_call 2 38 "$dumpfile", "divsim.vcd" {0 0 0};
+    %vpi_call 2 39 "$dumpvars" {0 0 0};
+    %delay 133, 0;
+    %load/vec4 v000001ddb6418130_0;
+    %pushi/vec4 2, 0, 32;
+    %cmp/e;
+    %flag_get/vec4 4;
+    %load/vec4 v000001ddb6418590_0;
+    %pushi/vec4 1, 0, 32;
+    %cmp/e;
+    %flag_get/vec4 4;
+    %and;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_3.0, 8;
+    %vpi_call 2 42 "$display", "Simulation succeeded" {0 0 0};
+    %jmp T_3.1;
+T_3.0 ;
+    %vpi_call 2 44 "$display", "Simulation failed" {0 0 0};
+T_3.1 ;
+    %end;
+    .thread T_3;
+    .scope S_000001ddb63b26a0;
+T_4 ;
+    %vpi_call 2 49 "$display", "\011\011time ,\011clk ,\011s, \011qres, \011rres " {0 0 0};
+    %vpi_call 2 50 "$monitor", "%d ,\011%b ,\011%b ,\011%b ", $time, v000001ddb6417b90_0, v000001ddb64181d0_0, v000001ddb6418130_0, v000001ddb6418590_0 {0 0 0};
+    %end;
+    .thread T_4;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "DivisionTestbench.v";
+    "DivisionCircuit.v";
