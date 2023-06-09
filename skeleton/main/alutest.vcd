@@ -1,0 +1,51 @@
+$date
+	Fri Jun 09 17:58:58 2023
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module AluTestBench $end
+$var wire 1 ! zero $end
+$var wire 32 " result [31:0] $end
+$var reg 32 # a [31:0] $end
+$var reg 3 $ alucontrol [2:0] $end
+$var reg 32 % b [31:0] $end
+$scope module alutest $end
+$var wire 32 & a [31:0] $end
+$var wire 32 ' a_and_b [31:0] $end
+$var wire 32 ( a_or_b [31:0] $end
+$var wire 3 ) alucontrol [2:0] $end
+$var wire 32 * b [31:0] $end
+$var wire 1 + first_xor $end
+$var wire 1 , second_xor $end
+$var wire 1 ! zero $end
+$var wire 32 - sum [31:0] $end
+$var wire 32 . result [31:0] $end
+$var wire 32 / extend [31:0] $end
+$var wire 32 0 b_multi [31:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b11111111111111111111111110101010 0
+b1 /
+b1 .
+b1010101 -
+1,
+1+
+b1010101 *
+b111 )
+b11111111111111111111111110101010 (
+b10101010 '
+b10101010 &
+b1010101 %
+b111 $
+b10101010 #
+b1 "
+0!
+$end
+#5
