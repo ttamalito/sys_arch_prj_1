@@ -21,7 +21,7 @@ module Datapath(
 	wire [31:0] paddwire; // for the new padding extension module
 	wire [31:0] zero_left_wire;
 	// Fetch: Pass PC to instruction memory and update PC
-	ProgramCounter pcenv(clk, reset, dobranch, signimm, jump, instr[25:0], pc);
+	ProgramCounter pcenv(clk, reset, dobranch, signimm, jump, instr[25:0], aluout, instr[31:26], pc); // I added the result of the ALU and the operation code, as inputs
 
 	// Execute:
 	// (a) Select operand
@@ -49,6 +49,8 @@ module ProgramCounter(
 	input  [31:0] branchoffset,
 	input         dojump,
 	input  [25:0] jumptarget,
+	input  [31:0] aluResult,
+	input  [5:0] opCode,
 	output [31:0] progcounter
 );
 	reg  [31:0] pc;
@@ -59,7 +61,12 @@ module ProgramCounter(
 	// Calculate possible (PC-relative) branch target
 	Adder pcbranch(.a(incpc), .b({branchoffset[29:0], 2'b00}), .cin(1'b0), .y(branchpc));
 	// Select the next value of the program counter
-	assign nextpc = dojump   ? {incpc[31:28], jumptarget, 2'b00} :
+	/*
+	The following logic was added: 
+	IF the opCOde is the code of BLGTZ and the result of the ALU is 1 and doBranch is 1, then take the branch
+	aluResult is going to be 1 when A < 0. So in that case we should take the branch
+	*/
+	assign nextpc = (opCode == 6'b000001 && aluResult == 32'd1 && dobranch) ? branchpc: dojump   ? {incpc[31:28], jumptarget, 2'b00} :
 					dobranch ? branchpc :
 							   incpc;
 
