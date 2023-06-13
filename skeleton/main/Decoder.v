@@ -27,12 +27,12 @@ module Decoder(
 					memtoreg = 0;
 					dojump = 0;
 					case (funct)
-						6'b100001: alucontrol = 3'b010 //  // addition unsigned
-						6'b100011: alucontrol = 3'b110 //  // subtraction unsigned
-						6'b100100: alucontrol = 3'b000//  // and
-						6'b100101: alucontrol = 3'b001//  // or
-						6'b101011: alucontrol = 3'b111//  // set-less-than unsigned
-						default:   alucontrol = 3'b011//  // undefined
+						6'b100001: alucontrol = 3'b010; //  // addition unsigned
+						6'b100011: alucontrol = 3'b110; //  // subtraction unsigned
+						6'b100100: alucontrol = 3'b000;//  // and
+						6'b100101: alucontrol = 3'b001;//  // or
+						6'b101011: alucontrol = 3'b111;//  // set-less-than unsigned
+						default:   alucontrol = 3'b011;//  // undefined
 					endcase
 				end
 			6'b100011, // Load data word from memory
@@ -45,7 +45,7 @@ module Decoder(
 					memwrite = op[3];
 					memtoreg = 1;
 					dojump = 0;
-					alucontrol = // TODO // Effective address: Base register + offset
+					alucontrol = 3'b010;// // Effective address: Base register + offset
 				end
 			6'b000100: // Branch Equal
 				begin
@@ -56,7 +56,7 @@ module Decoder(
 					memwrite = 0;
 					memtoreg = 0;
 					dojump = 0;
-					alucontrol = // TODO // Subtraction
+					alucontrol =3'b110; // TODO // Subtraction
 				end
 			6'b001001: // Addition immediate unsigned
 				begin
@@ -67,7 +67,7 @@ module Decoder(
 					memwrite = 0;
 					memtoreg = 0;
 					dojump = 0;
-					alucontrol = // TODO // Addition
+					alucontrol = 3'b010;// TODO // Addition
 				end
 			6'b000010: // Jump immediate
 				begin
@@ -78,7 +78,7 @@ module Decoder(
 					memwrite = 0;
 					memtoreg = 0;
 					dojump = 1;
-					alucontrol = // TODO
+					alucontrol = 3'b011;// 
 				end
 			6'b001111: //Load upper immeadiate, aka ex2.2
 				begin
@@ -122,7 +122,7 @@ module Decoder(
 					memwrite = 1'bx;
 					memtoreg = 1'bx;
 					dojump = 1'bx;
-					alucontrol = // TODO
+					alucontrol = 3'b011; // 
 				end
 		endcase
 	end

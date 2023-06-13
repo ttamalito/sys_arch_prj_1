@@ -27,7 +27,7 @@ module Datapath(
 	// (a) Select operand
 	SignExtension se(instr[15:0], signimm);
 	BackExtend back(instr[15:0],paddwire);
-	ZeroExtend padd(instrp[15:0],zero_left_wire);
+	ZeroExtend padd(instr[15:0],zero_left_wire);
 	assign srcbimm = (instr[31:26]== 6'b001101)? zero_left_wire : (instr[31:26] == 6'b001111) ? paddwire : alusrcbimm ? signimm : srcb; //if LUI then use paddwire to add zeros to the front 
 	// (b) Perform computation in the ALU
 	ArithmeticLogicUnit alu(srca, srcbimm, alucontrol, aluout, zero);
@@ -150,14 +150,14 @@ endmodule
 //module for padding with zeros
 module BackExtend(
 	input[15:0] a,
-	output[31:0] y, 
+	output[31:0] y
 ); 
-assign y = {a,{16{1'b0}}}
+assign y = {a,{16{1'b0}}};
 endmodule
 
 module ZeroExtend(
 	input[15:0] a,
-	output[31:0] y, 
+	output[31:0] y
 ); 
-assign y = {{16{1'b0}},a}
+assign y = {{16{1'b0}},a};
 endmodule

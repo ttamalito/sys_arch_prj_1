@@ -26,8 +26,8 @@ module ProcessorTestbench();
 			$readmemh("TestPrograms/Fibonacci.expected", expectedRegContent);
 //			$readmemh("TestPrograms/FunctionCall.dat", proc.imem.INSTRROM, 0, 4);
 //			$readmemh("TestPrograms/FunctionCall.expected", expectedRegContent);
-//			$readmemh("TestPrograms/Constants.dat", proc.imem.INSTRROM, 0, 2);
-//			$readmemh("TestPrograms/Constants.expected", expectedRegContent);
+			$readmemh("TestPrograms/Constants.dat", proc.imem.INSTRROM, 0, 2);
+			$readmemh("TestPrograms/Constants.expected", expectedRegContent);
 //			$readmemh("TestPrograms/Multiplication.dat", proc.imem.INSTRROM, 0, 4);
 //			$readmemh("TestPrograms/Multiplication.expected", expectedRegContent);
 
@@ -37,7 +37,7 @@ module ProcessorTestbench();
 			// Number of simulated cycles
 			#117; // Fibonacci
 //			#20; // FunctionCall
-//			#16; // Constants
+			#16; // Constants
 //			#24; // Multiplication
 
 			for(i=1; i<32; i=i+1) begin
