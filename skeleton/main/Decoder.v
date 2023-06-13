@@ -80,6 +80,35 @@ module Decoder(
 					dojump = 1;
 					alucontrol = // TODO
 				end
+			6'b001111: //Load upper immeadiate, aka ex2.2
+				begin
+					regwrite = 1;
+					destreg = instr[20:16];
+					alusrcbimm = 1;
+					dobranch = 0;
+					memwrite = 0;
+					memtoreg = 0;
+					dojump = 0;
+					alucontrol = 3'b010;
+				end
+			6'b001101: // Or immediate, aka ex2.2
+				begin
+					regwrite = 1;
+					destreg = instr[20:16];
+					alusrcbimm = 1;
+					dobranch = 0; 
+					memwrite = 0;
+					memtoreg = 0;
+					dojump = 0;
+					alucontrol = 3'b001
+				end
+			6'b000001: //branch less then zero aka ex2.3
+				begin
+					regwrite = 0;
+					destreg = instr[20:16];
+					alusrcbimm = 0;
+					dobranch = 1;
+				end
 			default: // Default case
 				begin
 					regwrite = 1'bx;

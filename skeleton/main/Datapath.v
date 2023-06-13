@@ -18,14 +18,17 @@ module Datapath(
 	wire [31:0] signimm;
 	wire [31:0] srca, srcb, srcbimm;
 	wire [31:0] result;
-
+	wire [31:0] paddwire; // for the new padding extension module
+	wire [31:0] zero_left_wire;
 	// Fetch: Pass PC to instruction memory and update PC
 	ProgramCounter pcenv(clk, reset, dobranch, signimm, jump, instr[25:0], pc);
 
 	// Execute:
 	// (a) Select operand
 	SignExtension se(instr[15:0], signimm);
-	assign srcbimm = alusrcbimm ? signimm : srcb;
+	BackExtend back(instr[15:0],paddwire);
+	ZeroExtend padd(instrp[15:0],zero_left_wire);
+	assign srcbimm = (instr[31:26]== 6'b001101)? zero_left_wire : (instr[31:26] == 6'b001111) ? paddwire : alusrcbimm ? signimm : srcb; //if LUI then use paddwire to add zeros to the front 
 	// (b) Perform computation in the ALU
 	ArithmeticLogicUnit alu(srca, srcbimm, alucontrol, aluout, zero);
 	// (c) Select the correct result
@@ -136,4 +139,18 @@ assign extend = {{31{1'b0}},second_xor};//ask in office hour for carry in from s
 assign result = (alucontrol[1:0]== 2'd0) ? a_and_b : (alucontrol[1:0] == 2'd1) ? a_or_b : (alucontrol[1:0]== 2'd2) ? sum :(alucontrol[2:0]== 3'd7) ? extend: 32'bx ; //main multiplexer logic
 assign zero = (result[31:0] == 'b0) ? 1'b1 : 1'b0;    
 
+endmodule
+//module for padding with zeros
+module BackExtend(
+	input[15:0] a,
+	output[31:0] y, 
+); 
+assign y = {a,{16{1'b0}}}
+endmodule
+
+module ZeroExtend(
+	input[15:0] a,
+	output[31:0] y, 
+); 
+assign y = {{16{1'b0}},a}
 endmodule
