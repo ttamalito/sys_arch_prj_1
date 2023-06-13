@@ -100,14 +100,18 @@ module Decoder(
 					memwrite = 0;
 					memtoreg = 0;
 					dojump = 0;
-					alucontrol = 3'b001
+					alucontrol = 3'b001;
 				end
 			6'b000001: //branch less then zero aka ex2.3
 				begin
 					regwrite = 0;
 					destreg = instr[20:16];
 					alusrcbimm = 0;
-					dobranch = 1;
+					dobranch = 1; // we want to branch, logic to decide to branch is in the ProgramCounter Module
+					memwrite = 0; // No writing to memory
+					memtoreg = 0; // We want the AlU result
+					dojump = 0;
+					alucontrol = 3'b111; // Perfomr SLT instruction
 				end
 			default: // Default case
 				begin
