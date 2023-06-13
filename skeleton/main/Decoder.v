@@ -19,6 +19,17 @@ module Decoder(
 		case (op)
 			6'b000000: // R-type instruction
 				begin
+					if (instr[5:0] == 6'b001000)
+						begin
+							regwrite = 0;
+							destreg = 5'bx;
+							alusrcbimm = 0;
+							dobranch = 0;
+							memwrite = 0;
+							memtoreg = 0;
+							dojump = 1;
+							alucontrol = 3'b011;
+						end
 					regwrite = 1;
 					destreg = instr[15:11];
 					alusrcbimm = 0;
@@ -56,7 +67,7 @@ module Decoder(
 					memwrite = 0;
 					memtoreg = 0;
 					dojump = 0;
-					alucontrol =3'b110; // TODO // Subtraction
+					alucontrol =3'b110; //  // Subtraction
 				end
 			6'b001001: // Addition immediate unsigned
 				begin
@@ -67,7 +78,7 @@ module Decoder(
 					memwrite = 0;
 					memtoreg = 0;
 					dojump = 0;
-					alucontrol = 3'b010;// TODO // Addition
+					alucontrol = 3'b010;//  // Addition
 				end
 			6'b000010: // Jump immediate
 				begin
@@ -112,6 +123,28 @@ module Decoder(
 					memtoreg = 0; // We want the AlU result
 					dojump = 0;
 					alucontrol = 3'b111; // Perfomr SLT instruction
+				end
+			6'b000011: //this is JUMP AND LINK
+				begin
+					regwrite = 1;
+					destreg = 5'b11111;
+					alusrcbimm = 0;
+					dobranch = 0;
+					memwrite = 0;
+					memtoreg = 0;
+					dojump = 1;
+					alucontrol = 3'b011; 
+				end
+			6'b000011: //this is JUMP AND LINK
+				begin
+					regwrite = 1;
+					destreg = 5'b11111;
+					alusrcbimm = 0;
+					dobranch = 0;
+					memwrite = 0;
+					memtoreg = 0;
+					dojump = 1;
+					alucontrol = 3'b011; 
 				end
 			default: // Default case
 				begin

@@ -20,9 +20,10 @@ module Datapath(
 	wire [31:0] result;
 	wire [31:0] paddwire; // for the new padding extension module
 	wire [31:0] zero_left_wire;
+	wire [31:0] jal_wire;
 	// Fetch: Pass PC to instruction memory and update PC
-	ProgramCounter pcenv(clk, reset, dobranch, signimm, jump, instr[25:0], aluout, instr[31:26], pc); // I added the result of the ALU and the operation code, as inputs
-
+	ProgramCounter pcenv(clk, reset, dobranch, signimm, jump, instr[25:0], aluout, instr[31:26],srca,instr[5:0], pc,jal_wire); // I added the result of the ALU and the operation code, as inputs
+	
 	// Execute:
 	// (a) Select operand
 	SignExtension se(instr[15:0], signimm);
@@ -32,7 +33,7 @@ module Datapath(
 	// (b) Perform computation in the ALU
 	ArithmeticLogicUnit alu(srca, srcbimm, alucontrol, aluout, zero);
 	// (c) Select the correct result
-	assign result = memtoreg ? readdata : aluout;
+	assign result =(instr[31:26] == 6'b000011 && jump == 1'b1) ? jal_wire : memtoreg ? readdata : aluout;
 
 	// Memory: Data word that is transferred to the data memory for (possible) storage
 	assign writedata = srcb;
@@ -51,7 +52,10 @@ module ProgramCounter(
 	input  [25:0] jumptarget,
 	input  [31:0] aluResult,
 	input  [5:0] opCode,
-	output [31:0] progcounter
+	input [31:0] jr_pc,
+	input [5:0] least_sig_bits,
+	output [31:0] progcounter,
+	output [31:0] pc_plus // additional output 
 );
 	reg  [31:0] pc;
 	wire [31:0] incpc, branchpc, nextpc;
@@ -60,13 +64,15 @@ module ProgramCounter(
 	Adder pcinc(.a(pc), .b(32'b100), .cin(1'b0), .y(incpc));
 	// Calculate possible (PC-relative) branch target
 	Adder pcbranch(.a(incpc), .b({branchoffset[29:0], 2'b00}), .cin(1'b0), .y(branchpc));
+	assign pc_plus = incpc;
+	
 	// Select the next value of the program counter
 	/*
 	The following logic was added: 
 	IF the opCOde is the code of BLGTZ and the result of the ALU is 1 and doBranch is 1, then take the branch
 	aluResult is going to be 1 when A < 0. So in that case we should take the branch
 	*/
-	assign nextpc = (opCode == 6'b000001 && aluResult == 32'd1 && dobranch) ? branchpc: dojump   ? {incpc[31:28], jumptarget, 2'b00} :
+	assign nextpc = (least_sig_bits[5:0] == 6'b001000 && dojump == 1) ? jr_pc :(opCode == 6'b000001 && aluResult == 32'd1 && dobranch) ? branchpc: dojump   ? {incpc[31:28], jumptarget, 2'b00} :
 					dobranch ? branchpc :
 							   incpc;
 
@@ -97,6 +103,7 @@ module RegisterFile(
 	always @(posedge clk)
 		if (we3) begin
 			registers[wa3] <= wd3;
+			
 		end
 
 	assign rd1 = (ra1 != 0) ? registers[ra1] : 0;
