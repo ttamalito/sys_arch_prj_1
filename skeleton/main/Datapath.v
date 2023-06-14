@@ -26,12 +26,12 @@ module Datapath(
 	wire [31:0] lo,hi;
 	wire enable_mul;
 
-	assign {hi,lo} = 32'd123* 32'd456;
+	assign {hi,lo} =  32'd123* 32'd456;// {srca, srcb};
 	assign enable_mul = (instr[5:0] == 6'b011001) ? 1 : 0;
 
 	Multiplication mul(.clk(clk),.mul_enable(enable_mul), .wd3hi(hi),.wd3lo(lo), .mfhi(mfhi_wire),.mflo(mflo_wire));
 	// Fetch: Pass PC to instruction memory and update PC
-	ProgramCounter pcenv(clk, reset, dobranch, signimm, jump, instr[25:0], aluout, instr[31:26],srca,instr[5:0], pc,jal_wire); // I added the result of the ALU and the operation code, as inputs
+	ProgramCounter pcenv(clk, reset, dobranch, signimm, jump, instr[25:0], aluout, instr[31:26],srca,instr[5:0],alucontrol, pc,jal_wire); // I added the result of the ALU and the operation code, as inputs
 	
 	// Execute:
 	// (a) Select operand
@@ -42,7 +42,7 @@ module Datapath(
 	// (b) Perform computation in the ALU
 	ArithmeticLogicUnit alu(srca, srcbimm, alucontrol, aluout, zero);
 	// (c) Select the correct result
-	assign result = (instr[5:0] == 6'b010010) ? mflo_wire : (instr[5:0] == 6'b001000) ? mfhi_wire : (instr[31:26] == 6'b000011 && jump == 1'b1) ? jal_wire : memtoreg ? readdata : aluout;
+	assign result = (instr[5:0] == 6'b010010 && instr[31:16] == 16'd0 && instr[10:5] == 5'd0 && alucontrol[2:0] == 3'b011) ? mflo_wire : (instr[5:0] == 6'b010000 && instr[31:16] == 16'd0 && instr[10:5] == 5'd0 && alucontrol[2:0] == 3'b011 ) ? mfhi_wire : (instr[31:26] == 6'b000011 && jump == 1'b1) ? jal_wire : memtoreg ? readdata : aluout;
 
 	// Memory: Data word that is transferred to the data memory for (possible) storage
 	assign writedata = srcb;
@@ -65,6 +65,7 @@ module ProgramCounter(
 	input  [5:0] opCode,
 	input [31:0] jr_pc,
 	input [5:0] least_sig_bits,
+	input [2:0] alucontrol,
 	output [31:0] progcounter,
 	output [31:0] pc_plus // additional output 
 );
@@ -83,7 +84,7 @@ module ProgramCounter(
 	IF the opCOde is the code of BLGTZ and the result of the ALU is 1 and doBranch is 1, then take the branch
 	aluResult is going to be 1 when A < 0. So in that case we should take the branch
 	*/
-	assign nextpc = (least_sig_bits[5:0] == 6'b001000 && dojump == 1) ? jr_pc :(opCode == 6'b000001 && aluResult == 32'd1 && dobranch) ? branchpc: dojump   ? {incpc[31:28], jumptarget, 2'b00} :
+	assign nextpc = (least_sig_bits[5:0] == 6'b001000 && dojump == 1 && alucontrol[2:0] == 3'b100) ? jr_pc :(opCode == 6'b000001 && aluResult == 32'd1 && dobranch) ? branchpc: dojump   ? {incpc[31:28], jumptarget, 2'b00} :
 					dobranch ? branchpc :
 							   incpc;
 
@@ -114,7 +115,7 @@ module RegisterFile(
 	always @(posedge clk)
 		if (we3) begin
 			registers[wa3] <= wd3;
-			
+			$display("We are writing this", wd3);
 		end
 
 	assign rd1 = (ra1 != 0) ? registers[ra1] : 0;

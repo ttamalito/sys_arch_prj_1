@@ -28,7 +28,7 @@ module Decoder(
 							memwrite = 0;
 							memtoreg = 0;
 							dojump = 1;
-							alucontrol = 3'b011;
+							alucontrol = 3'b100; // A AND NOT B, we send this to indentify the instruction properly in the PC
 						end // here ends the if for JR instruction
 					else if (instr[5:0]==6'b010010) // for mflo
 						begin
@@ -39,7 +39,7 @@ module Decoder(
 							memwrite = 0;
 							memtoreg = 0;
 							dojump = 0;
-							alucontrol = 3'b011;
+							alucontrol = 3'b011; // undefinde
 						end
 					else if (instr[5:0] == 6'b010000) //mfhi
 						begin 
@@ -50,7 +50,7 @@ module Decoder(
 							memwrite = 0;
 							memtoreg = 0;
 							dojump = 0;
-							alucontrol = 3'b011;
+							alucontrol = 3'b011; // undefind
 						end
 					else if (instr[5:0] == 6'b011001) //multu
 						begin 
@@ -124,7 +124,7 @@ module Decoder(
 					memwrite = 0;
 					memtoreg = 0;
 					dojump = 1;
-					alucontrol = 3'b011;// 
+					alucontrol = 3'b011;// undefinde
 				end
 			6'b001111: //Load upper immeadiate, aka ex2.2
 				begin
@@ -168,7 +168,7 @@ module Decoder(
 					memwrite = 0;
 					memtoreg = 0;
 					dojump = 1'b1;
-					alucontrol = 3'b010; 
+					alucontrol = 3'b010; // addition
 				end
 			
 			default: // Default case
