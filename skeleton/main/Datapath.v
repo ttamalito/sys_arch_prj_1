@@ -135,6 +135,7 @@ module ArithmeticLogicUnit(
 wire[31:0] b_multi; //wire for multiplexer takes b or ~b
 wire[31:0] a_and_b;// wire for a&b
 wire[31:0] a_or_b;
+wire cout1; // creating our own adder kinda 
 wire[31:0] sum; //sums up a+b 
 wire first_xor; // wire for first xor gate (see ALU schema) 
 wire second_xor;// wire for second xor gate (see ALU schema)
@@ -143,9 +144,9 @@ wire [31:0]extend;
 assign b_multi = (alucontrol[2] == 1'd0) ?  b : ~b; //logic for a&b
 assign a_and_b = a & b_multi;
 assign a_or_b = a | b_multi;
-assign sum =(alucontrol[2] == 1'd0)? a + b_multi: a + b_multi + 1'b1 ; // sum or substraction depending on the multiplexer 
+assign {cout1,sum} =(alucontrol[2] == 1'd0)? a + b_multi: a + b_multi + 1'b1 ; // sum or substraction depending on the multiplexer 
 assign first_xor = a[31] ^ b_multi[31]; //xor with the most significant digits of a and b/~b 
-assign second_xor = first_xor ^ sum[31];
+assign second_xor = first_xor ^ cout1 ;
 assign extend = {{31{1'b0}},second_xor};//ask in office hour for carry in from sum, for now negate extend. also ask for overflow
 
 //logic for the  main multiplexer

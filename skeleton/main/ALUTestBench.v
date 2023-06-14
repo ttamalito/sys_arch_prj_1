@@ -14,7 +14,7 @@ ArithmeticLogicUnit alutest(
 );
 initial 
     begin
-        a = 32'd170;
+        a = 32'd84;
         b = 32'd85;
         alucontrol = 3'd7;
     end
@@ -24,7 +24,7 @@ initial
 		$dumpfile("alutest.vcd");
 		$dumpvars;
 		#5;
-		if (zero == 1'b1 && result == 32'd0)
+		if (zero == 1'b0 && result == 32'd1)
 			$display("Simulation succeeded");
 		else
 			$display("Simulation failed");
