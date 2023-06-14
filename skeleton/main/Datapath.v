@@ -26,7 +26,7 @@ module Datapath(
 	wire [31:0] lo,hi;
 	wire enable_mul;
 
-	assign {hi,lo} =  32'd123* 32'd456;// {srca, srcb};
+	assign {hi,lo} =  srca*srcb;// {srca, srcb};
 	assign enable_mul = (instr[5:0] == 6'b011001) ? 1 : 0;
 
 	Multiplication mul(.clk(clk),.mul_enable(enable_mul), .wd3hi(hi),.wd3lo(lo), .mfhi(mfhi_wire),.mflo(mflo_wire));
@@ -115,7 +115,6 @@ module RegisterFile(
 	always @(posedge clk)
 		if (we3) begin
 			registers[wa3] <= wd3;
-			$display("We are writing this", wd3);
 		end
 
 	assign rd1 = (ra1 != 0) ? registers[ra1] : 0;
@@ -195,8 +194,6 @@ always @(posedge clk)
 begin
 	if(mul_enable)
 	begin
-		$display("this is wd3hi", wd3hi);
-		$display("this is wd3lo", wd3lo);
 		mul_registers[1] <= wd3hi;
 		mul_registers[0] <= wd3lo;
 	end
