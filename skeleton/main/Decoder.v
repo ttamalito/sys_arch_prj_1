@@ -28,8 +28,41 @@ module Decoder(
 							memwrite = 0;
 							memtoreg = 0;
 							dojump = 1;
-							alucontrol = 3'b010;
+							alucontrol = 3'b011;
 						end // here ends the if for JR instruction
+					else if (instr[5:0]==6'b010010) // for mflo
+						begin
+							regwrite = 1;
+							destreg = instr[15:11];
+							alusrcbimm = 0;
+							dobranch = 0;
+							memwrite = 0;
+							memtoreg = 0;
+							dojump = 0;
+							alucontrol = 3'b011;
+						end
+					else if (instr[5:0] == 6'b010000) //mfhi
+						begin 
+							regwrite = 1;
+							destreg = instr[15:11];
+							alusrcbimm = 0;
+							dobranch = 0;
+							memwrite = 0;
+							memtoreg = 0;
+							dojump = 0;
+							alucontrol = 3'b011;
+						end
+					else if (instr[5:0] == 6'b011001) //multu
+						begin 
+							regwrite = 0;
+							destreg = 5'bx;
+							alusrcbimm = 0;
+							dobranch = 0;
+							memwrite = 0;
+							memtoreg = 0;
+							dojump = 0;
+							alucontrol = 3'b011;
+						end
 					else begin  // if not JR then continue to the case statement
 					regwrite = 1;
 					destreg = instr[15:11];
@@ -137,6 +170,7 @@ module Decoder(
 					dojump = 1'b1;
 					alucontrol = 3'b010; 
 				end
+			
 			default: // Default case
 				begin
 					regwrite = 1'bx;

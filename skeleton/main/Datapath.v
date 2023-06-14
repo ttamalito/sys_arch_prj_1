@@ -21,6 +21,15 @@ module Datapath(
 	wire [31:0] paddwire; // for the new padding extension module
 	wire [31:0] zero_left_wire;
 	wire [31:0] jal_wire;
+	wire [31:0] mflo_wire;
+	wire [31:0] mfhi_wire;
+	wire [31:0] lo,hi;
+	wire enable_mul;
+
+	assign {hi,lo} = 32'd123* 32'd456;
+	assign enable_mul = (instr[5:0] == 6'b011001) ? 1 : 0;
+
+	Multiplication mul(.clk(clk),.mul_enable(enable_mul), .wd3hi(hi),.wd3lo(lo), .mfhi(mfhi_wire),.mflo(mflo_wire));
 	// Fetch: Pass PC to instruction memory and update PC
 	ProgramCounter pcenv(clk, reset, dobranch, signimm, jump, instr[25:0], aluout, instr[31:26],srca,instr[5:0], pc,jal_wire); // I added the result of the ALU and the operation code, as inputs
 	
@@ -33,7 +42,7 @@ module Datapath(
 	// (b) Perform computation in the ALU
 	ArithmeticLogicUnit alu(srca, srcbimm, alucontrol, aluout, zero);
 	// (c) Select the correct result
-	assign result =(instr[31:26] == 6'b000011 && jump == 1'b1) ? jal_wire : memtoreg ? readdata : aluout;
+	assign result = (instr[5:0] == 6'b010010) ? mflo_wire : (instr[5:0] == 6'b001000) ? mfhi_wire : (instr[31:26] == 6'b000011 && jump == 1'b1) ? jal_wire : memtoreg ? readdata : aluout;
 
 	// Memory: Data word that is transferred to the data memory for (possible) storage
 	assign writedata = srcb;
@@ -41,6 +50,8 @@ module Datapath(
 	// Write-Back: Provide operands and write back the result
 	RegisterFile gpr(clk, regwrite, instr[25:21], instr[20:16],
 				   destreg, result, srca, srcb);
+	
+
 endmodule
 
 module ProgramCounter(
@@ -168,4 +179,27 @@ module ZeroExtend(
 	output[31:0] y
 ); 
 assign y = {{16{1'b0}},a};
+endmodule
+
+module Multiplication (
+	input clk,
+	input mul_enable,
+	input [31:0] wd3hi, wd3lo,
+	output [31:0] mfhi, mflo
+);
+assign mfhi = mul_registers[1];
+assign mflo = mul_registers[0];
+reg[31:0] mul_registers [1:0];
+always @(posedge clk) 
+begin
+	if(mul_enable)
+	begin
+		$display("this is wd3hi", wd3hi);
+		$display("this is wd3lo", wd3lo);
+		mul_registers[1] <= wd3hi;
+		mul_registers[0] <= wd3lo;
+	end
+end
+
+	
 endmodule
