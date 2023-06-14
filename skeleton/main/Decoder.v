@@ -19,7 +19,7 @@ module Decoder(
 		case (op)
 			6'b000000: // R-type instruction
 				begin
-					if (instr[5:0] == 6'b001000)
+					if (instr[5:0] == 6'b001000)  // check for JR instruction
 						begin
 							regwrite = 0;
 							destreg = 5'bx;
@@ -28,8 +28,9 @@ module Decoder(
 							memwrite = 0;
 							memtoreg = 0;
 							dojump = 1;
-							alucontrol = 3'b011;
-						end
+							alucontrol = 3'b010;
+						end // here ends the if for JR instruction
+					else begin  // if not JR then continue to the case statement
 					regwrite = 1;
 					destreg = instr[15:11];
 					alusrcbimm = 0;
@@ -45,6 +46,7 @@ module Decoder(
 						6'b101011: alucontrol = 3'b111;//  // set-less-than unsigned
 						default:   alucontrol = 3'b011;//  // undefined
 					endcase
+					end // here ends the else statement 
 				end
 			6'b100011, // Load data word from memory
 			6'b101011: // Store data word
@@ -132,19 +134,8 @@ module Decoder(
 					dobranch = 0;
 					memwrite = 0;
 					memtoreg = 0;
-					dojump = 1;
-					alucontrol = 3'b011; 
-				end
-			6'b000011: //this is JUMP AND LINK
-				begin
-					regwrite = 1;
-					destreg = 5'b11111;
-					alusrcbimm = 0;
-					dobranch = 0;
-					memwrite = 0;
-					memtoreg = 0;
-					dojump = 1;
-					alucontrol = 3'b011; 
+					dojump = 1'b1;
+					alucontrol = 3'b010; 
 				end
 			default: // Default case
 				begin
